@@ -4,6 +4,11 @@ if (Meteor.isClient) {
       return Options.find();
     }
   });
+  Template.options.events({
+    'click .option': function(){
+      Votes.insert({'user_id': Meteor.userId, 'option': this._id});
+    }
+  });
 }
 
 if (Meteor.isServer) {
