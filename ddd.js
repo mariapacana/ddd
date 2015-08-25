@@ -1,18 +1,17 @@
 if (Meteor.isClient) {
   Template.options.helpers({
-    options: function () {
+    options: function() {
       return Options.find();
+    },
+    optionVotes: function(optionId) {
+      return Votes.find({'optionId': optionId}).count();
     }
   });
   Template.options.events({
     'click .option': function(){
-      Votes.insert({'user_id': Meteor.userId, 'option': this._id});
+        var count = Votes.find({'optionId': this._id, 'userId': Meteor.userId}).count();
+        if (count === 0)
+          Votes.insert({'userId': Meteor.userId, 'optionId': this._id});
     }
-  });
-}
-
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
   });
 }
