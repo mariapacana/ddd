@@ -9,9 +9,10 @@ if (Meteor.isClient) {
   });
   Template.options.events({
     'click .option': function(){
-        var count = Votes.find({'optionId': this._id, 'userId': Meteor.userId}).count();
+        var userId = Meteor.userId();
+        var count = Votes.find({'optionId': this._id, 'userId': userId }).count();
         if (count === 0)
-          Votes.insert({'userId': Meteor.userId, 'optionId': this._id});
+          Votes.insert({'userId': userId, 'optionId': this._id});
     }
   });
 }
