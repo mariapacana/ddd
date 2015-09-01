@@ -5,15 +5,18 @@
 
   <body>
     {{> loginButtons}}
-
-    <h1>What should I do next?</h1>
-
-    {{> options}}
+    {{#with currentRound}}
+      {{> options}}
+    {{/with }}
   </body>
 </template>
 
 <template name="options">
+  <h1>What should I do next?</h1>
   {{#each options}}
-    <h1><a href class="option">{{text}}</a> {{optionVotes _id}}</h1>
+    <h1>
+      <a href class="option">{{text}}</a>
+      {{optionVotes}}
+    </h1>
   {{/each}}
 </template>
