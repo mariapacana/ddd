@@ -5,10 +5,16 @@
 
   <body>
     {{> loginButtons}}
+    {{> winner}}
     {{#with currentRound}}
       {{> options}}
     {{/with }}
   </body>
+</template>
+
+<template name="winner">
+  <h1>Your Vote:</h1>
+  <p>{{winner}}</p>
 </template>
 
 <template name="options">
