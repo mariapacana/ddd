@@ -1,19 +1,25 @@
 if (Meteor.isClient) {
   Template.ddd.helpers({
     currentRound: function() {
-      var currentRound = Rounds.findOne();
+      var currentRound = Rounds.findOne({current: true});
       return currentRound;
     },
   });
   Template.winner.helpers({
     winner: function() {
-      var currentRound = Rounds.findOne();
-      return currentRound && currentRound.winner;
+      var currentRoundCount = Rounds.findOne({current: true}).roundCount;
+      var lastRoundCount;
+      var lastRound;
+      if (currentRoundCount && currentRoundCount >= 2) {
+        lastRoundCount = currentRoundCount - 1;
+        lastRound = Rounds.findOne({roundCount: lastRoundCount});
+        return lastRound && lastRound.winner;
+      }
     }
   });
   Template.options.helpers({
     options: function() {
-      return Options.find({round: this.current});
+      return Options.find({round: this.roundCount});
     },
     optionVotes: function() {
       return Votes.find({optionId: this._id, round: this.round}).count();
@@ -36,6 +42,8 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
 
+  var roundCount = 1;
+
   var options = [{round: 1, text: "juggling"},
                  {round: 1, text: "singing"},
                  {round: 1, text: "levitating"},
@@ -47,7 +55,7 @@ if (Meteor.isServer) {
                  {round: 3, text: "getting prime factors"}];
 
     if (Rounds.find().count() === 0) {
-      Rounds.insert({current: 1});
+      Rounds.insert({roundCount: roundCount, current: true});
     }
     if (Options.find().count() === 0) {
       _.each(options, function(doc) {
@@ -64,12 +72,14 @@ if (Meteor.isServer) {
     var sortedVotes;
     var winnerId;
     var winner;
-    var currentRound = Rounds.findOne();
+    var currentRound = Rounds.findOne({current: true});
+    var currentRoundCount = currentRound.roundCount;
+    var nextRoundCount = currentRoundCount+1;
 
-    if (currentRound && currentRound.current <= max_rounds) {
+    if (currentRound && currentRound.roundCount <= max_rounds) {
       // Show the result for the current round, by updating it with
       // the correct option
-      votes = Votes.find({round: currentRound.current}).fetch();
+      votes = Votes.find({round: currentRound.roundCount}).fetch();
       groupedVotes = _.groupBy(votes, function(vote){return vote.optionId});
       countedVotes = _.map(groupedVotes, function(votes, optionId){
                             return {length: votes.length, id: optionId};
@@ -81,7 +91,8 @@ if (Meteor.isServer) {
       Rounds.update(currentRound._id, {$set: {winner: winner}});
 
       // Move to the next round
-      Rounds.update({_id: currentRound._id}, {$inc: {current: 1}});
+      Rounds.update({_id: currentRound._id}, {$set: {current: false}});
+      Rounds.insert({roundCount: nextRoundCount, current: true});
     } else {
       Rounds.remove({});
       Votes.remove({});
