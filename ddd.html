@@ -9,11 +9,12 @@
     {{#with currentRound}}
       {{> options}}
     {{/with }}
+    {{> rating}}
   </body>
 </template>
 
 <template name="winner">
-  <h1>Your Vote:</h1>
+  <h1>What's Up Next</h1>
   <p>{{winner}}</p>
 </template>
 
@@ -25,4 +26,10 @@
       {{optionVotes}}
     </h1>
   {{/each}}
+</template>
+
+<template name="rating">
+  {{#if lastLastRoundWinner}}
+    <h1>Rate how well I performed the task, {{lastLastRoundWinner}}</h1>
+  {{/if}}
 </template>

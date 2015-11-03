@@ -17,6 +17,18 @@ if (Meteor.isClient) {
       }
     }
   });
+  Template.rating.helpers({
+    lastLastRoundWinner: function() {
+      var currentRoundCount = Rounds.findOne({current: true}).roundCount;
+      var lastLastRoundCount;
+      var lastLastRound;
+      if (currentRoundCount && currentRoundCount >= 3) {
+        lastLastRoundCount = currentRoundCount - 2;
+        lastLastRound = Rounds.findOne({roundCount: lastLastRoundCount});
+        return lastLastRound && lastLastRound.winner;
+      }
+    }
+  });
   Template.options.helpers({
     options: function() {
       return Options.find({round: this.roundCount});
@@ -50,9 +62,12 @@ if (Meteor.isServer) {
                  {round: 2, text: "dancing"},
                  {round: 2, text: "finding the meaning of life"},
                  {round: 2, text: "getting prime factors"},
-                 {round: 3, text: "dancing"},
-                 {round: 3, text: "finding the meaning of life"},
-                 {round: 3, text: "getting prime factors"}];
+                 {round: 3, text: "swerving"},
+                 {round: 3, text: "squiggling"},
+                 {round: 3, text: "bouncing"},
+                 {round: 4, text: "calculating"},
+                 {round: 4, text: "relating"},
+                 {round: 4, text: "prognosticating"}];
 
     if (Rounds.find().count() === 0) {
       Rounds.insert({roundCount: roundCount, current: true});
@@ -65,7 +80,7 @@ if (Meteor.isServer) {
   });
 
   Meteor.setInterval(function () {
-    var max_rounds = 3;
+    var max_rounds = 4;
     var votes;
     var groupedVotes;
     var countedVotes;
