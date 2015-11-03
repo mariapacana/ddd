@@ -31,5 +31,9 @@
 <template name="rating">
   {{#if lastLastRoundWinner}}
     <h1>Rate how well I performed the task, {{lastLastRoundWinner}}</h1>
+    <form class="rating">
+      <input type="text" name="text" placeholder="90">
+      <input type="submit" value="Submit">
+    </form>
   {{/if}}
 </template>

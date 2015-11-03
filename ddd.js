@@ -29,6 +29,30 @@ if (Meteor.isClient) {
       }
     }
   });
+  Template.rating.events({
+    "submit .rating": function (event) {
+      // Prevent default browser form submit
+      event.preventDefault();
+
+      // Get value from form element
+      var text = event.target.text.value;
+
+      var currentRoundCount = Rounds.findOne({current: true}).roundCount;
+      var lastLastRoundCount = currentRoundCount - 2;
+      var lastLastRound = Rounds.findOne({roundCount: lastLastRoundCount});
+
+      // Insert a rating
+      Ratings.insert({
+        round: lastLastRound._id,
+        rating: text,
+        createdAt: new Date() // current time
+      });
+
+      // Clear form
+      event.target.text.value = "";
+    }
+  });
+
   Template.options.helpers({
     options: function() {
       return Options.find({round: this.roundCount});
