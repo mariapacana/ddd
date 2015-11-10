@@ -18,6 +18,7 @@ if (Meteor.isClient) {
     }
   });
   Template.rating.helpers({
+    ratingOptions: [100, 90, 80, 70, 60, 50, 40, 30, 20, 10],
     lastLastRoundWinner: function() {
       var currentRoundCount = Rounds.findOne({current: true}).roundCount;
       var lastLastRoundCount;
@@ -35,7 +36,7 @@ if (Meteor.isClient) {
       event.preventDefault();
 
       // Get value from form element
-      var text = event.target.text.value;
+      var rating = $(event.target).find("select").val();
 
       var currentRoundCount = Rounds.findOne({current: true}).roundCount;
       var lastLastRoundCount = currentRoundCount - 2;
@@ -44,12 +45,12 @@ if (Meteor.isClient) {
       // Insert a rating
       Ratings.insert({
         round: lastLastRound._id,
-        rating: text,
+        rating: parseInt(rating, 10),
         createdAt: new Date() // current time
       });
 
       // Clear form
-      event.target.text.value = "";
+      $(event.target).find("submit").attr('disabled', true);
     }
   });
 

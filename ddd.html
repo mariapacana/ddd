@@ -14,7 +14,7 @@
 </template>
 
 <template name="winner">
-  <h1>What's Up Next</h1>
+  <h1>What I'm Doing Now</h1>
   <p>{{winner}}</p>
 </template>
 
@@ -32,7 +32,11 @@
   {{#if lastLastRoundWinner}}
     <h1>Rate how well I performed the task, {{lastLastRoundWinner}}</h1>
     <form class="rating">
-      <input type="text" name="text" placeholder="90">
+      <select name="rating-options">
+        {{#each ratingOptions}}
+          <option value={{this}}>{{this}}</option>
+        {{/each}}
+      </select>
       <input type="submit" value="Submit">
     </form>
   {{/if}}
