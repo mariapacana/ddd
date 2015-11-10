@@ -28,6 +28,26 @@ if (Meteor.isClient) {
         lastLastRound = Rounds.findOne({roundCount: lastLastRoundCount});
         return lastLastRound && lastLastRound.winner;
       }
+    },
+    averageRating: function() {
+      var ratings;
+      var lastLastRoundCount;
+      var ratingValues;
+      var ratingSum;
+      var currentRoundCount = Rounds.findOne({current: true}).roundCount;
+      var average = "Not Ready";
+
+      if (currentRoundCount && currentRoundCount >= 3) {
+        lastLastRoundCount = currentRoundCount - 2;
+        ratings = Ratings.find({roundCount: lastLastRoundCount}).fetch();
+        ratingValues = _.pluck(ratings, 'value');
+        if (ratingValues.length !== 0) {
+          ratingSum = ratingValues.reduce(function(a, b) { return a + b; });
+          average = ratingSum / ratingValues.length;
+        }
+      }
+
+      return average;
     }
   });
   Template.rating.events({
@@ -44,8 +64,8 @@ if (Meteor.isClient) {
 
       // Insert a rating
       Ratings.insert({
-        round: lastLastRound._id,
-        rating: parseInt(rating, 10),
+        roundCount: lastLastRound.roundCount,
+        value: parseInt(rating, 10),
         createdAt: new Date() // current time
       });
 
