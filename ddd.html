@@ -10,6 +10,7 @@
       {{> options}}
     {{/with }}
     {{> rating}}
+    {{> restart}}
   </body>
 </template>
 
@@ -41,4 +42,8 @@
     </form>
     My score is: {{averageRating}}
   {{/if}}
+</template>
+
+<template name="restart">
+  <button id="restart">Restart</button>
 </template>
