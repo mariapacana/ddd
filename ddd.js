@@ -7,12 +7,9 @@ if (Meteor.isClient) {
   });
   Template.winner.helpers({
     winner: function() {
-      var currentRoundCount = Rounds.findOne({current: true}).roundCount;
-      var lastRoundCount;
       var lastRound;
-      if (currentRoundCount && currentRoundCount >= 2) {
-        lastRoundCount = currentRoundCount - 1;
-        lastRound = Rounds.findOne({roundCount: lastRoundCount});
+      if (this.roundCount && this.roundCount >= 2) {
+        lastRound = Rounds.findOne({roundCount: this.roundCount-1});
         return lastRound && lastRound.winner;
       }
     }
@@ -20,26 +17,20 @@ if (Meteor.isClient) {
   Template.rating.helpers({
     ratingOptions: [100, 90, 80, 70, 60, 50, 40, 30, 20, 10],
     lastLastRoundWinner: function() {
-      var currentRoundCount = Rounds.findOne({current: true}).roundCount;
-      var lastLastRoundCount;
       var lastLastRound;
-      if (currentRoundCount && currentRoundCount >= 3) {
-        lastLastRoundCount = currentRoundCount - 2;
-        lastLastRound = Rounds.findOne({roundCount: lastLastRoundCount});
+      if (this.roundCount && this.roundCount >= 3) {
+        lastLastRound = Rounds.findOne({roundCount: this.roundCount-2});
         return lastLastRound && lastLastRound.winner;
       }
     },
     averageRating: function() {
       var ratings;
-      var lastLastRoundCount;
       var ratingValues;
       var ratingSum;
-      var currentRoundCount = Rounds.findOne({current: true}).roundCount;
       var average = "Not Ready";
 
-      if (currentRoundCount && currentRoundCount >= 3) {
-        lastLastRoundCount = currentRoundCount - 2;
-        ratings = Ratings.find({roundCount: lastLastRoundCount}).fetch();
+      if (this.roundCount && this.roundCount >= 3) {
+        ratings = Ratings.find({roundCount: this.roundCount-2}).fetch();
         ratingValues = _.pluck(ratings, 'value');
         if (ratingValues.length !== 0) {
           ratingSum = ratingValues.reduce(function(a, b) { return a + b; });
@@ -58,9 +49,7 @@ if (Meteor.isClient) {
       // Get value from form element
       var rating = $(event.target).find("select").val();
 
-      var currentRoundCount = Rounds.findOne({current: true}).roundCount;
-      var lastLastRoundCount = currentRoundCount - 2;
-      var lastLastRound = Rounds.findOne({roundCount: lastLastRoundCount});
+      var lastLastRound = Rounds.findOne({roundCount: this.roundCount-2});
 
       // Insert a rating
       Ratings.insert({

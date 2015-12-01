@@ -5,11 +5,11 @@
 
   <body>
     {{> loginButtons}}
-    {{> winner}}
     {{#with currentRound}}
+      {{> winner}}
       {{> options}}
-    {{/with }}
-    {{> rating}}
+      {{> rating}}
+    {{/with}}
     {{> restart}}
   </body>
 </template>
