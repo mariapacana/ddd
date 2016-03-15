@@ -1,0 +1,11 @@
+<template name="admin">
+  <head>
+    <title>DDD Admin Page</title>
+  </head>
+  <body>
+    {{#with currentRound}}
+      {{> winner}}
+    {{/with}}
+    <button id="advanceRound">Advance to Next Round</button>
+  </body>
+</template>
