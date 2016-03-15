@@ -29,44 +29,41 @@ if (Meteor.isServer) {
           });
         }
     },
-    'runGame': function(roundCount) {
-      Meteor.setInterval(function () {
-        var max_rounds = 4;
-        var votes;
-        var groupedVotes;
-        var countedVotes;
-        var sortedVotes;
-        var winnerId;
-        var winner;
-        var currentRound = Rounds.findOne({current: true});
-        var currentRoundCount = currentRound.roundCount;
-        var nextRoundCount = currentRoundCount+1;
+    'advanceRound': function(roundCount) {
+      var max_rounds = 4;
+      var votes;
+      var groupedVotes;
+      var countedVotes;
+      var sortedVotes;
+      var winnerId;
+      var winner;
+      var currentRound = Rounds.findOne({current: true});
+      var currentRoundCount = currentRound.roundCount;
+      var nextRoundCount = currentRoundCount+1;
 
-        if (currentRound && currentRound.roundCount <= max_rounds) {
-          // Show the result for the current round, by updating it with
-          // the correct option
-          votes = Votes.find({round: currentRound.roundCount}).fetch();
-          groupedVotes = _.groupBy(votes, function(vote){return vote.optionId});
-          countedVotes = _.map(groupedVotes, function(votes, optionId){
-                                return {length: votes.length, id: optionId};
-                          });
-          sortedVotes = _.sortBy(countedVotes, function(v){return v.length;});
-          winnerId = sortedVotes[sortedVotes.length - 1].id;
-          winner = Options.findOne(winnerId).text;
+      if (currentRound && currentRound.roundCount <= max_rounds) {
+        // Show the result for the current round, by updating it with
+        // the correct option
+        votes = Votes.find({round: currentRound.roundCount}).fetch();
+        groupedVotes = _.groupBy(votes, function(vote){return vote.optionId});
+        countedVotes = _.map(groupedVotes, function(votes, optionId){
+                              return {length: votes.length, id: optionId};
+                        });
+        sortedVotes = _.sortBy(countedVotes, function(v){return v.length;});
+        winnerId = sortedVotes[sortedVotes.length - 1].id;
+        winner = Options.findOne(winnerId).text;
 
-          Rounds.update(currentRound._id, {$set: {winner: winner}});
+        Rounds.update(currentRound._id, {$set: {winner: winner}});
 
-          // Move to the next round
-          Rounds.update({_id: currentRound._id}, {$set: {current: false}});
-          Rounds.insert({roundCount: nextRoundCount, current: true});
-        }
-      }, 10000);
+        // Move to the next round
+        Rounds.update({_id: currentRound._id}, {$set: {current: false}});
+        Rounds.insert({roundCount: nextRoundCount, current: true});
+      }
     }
   });
 
   Meteor.startup(function () {
     var roundCount = 1;
     Meteor.call('seedData', roundCount);
-    Meteor.call('runGame',roundCount);
   });
 }
