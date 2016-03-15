@@ -10,40 +10,5 @@
       {{> options}}
       {{> rating}}
     {{/with}}
-    {{> restart}}
   </body>
-</template>
-
-<template name="winner">
-  <h1>What I'm Doing Now</h1>
-  <p>{{winner}}</p>
-</template>
-
-<template name="options">
-  <h1>What should I do next?</h1>
-  {{#each options}}
-    <h1>
-      <a href class="option">{{text}}</a>
-      {{optionVotes}}
-    </h1>
-  {{/each}}
-</template>
-
-<template name="rating">
-  {{#if lastLastRoundWinner}}
-    <h1>Rate how well I performed the task, {{lastLastRoundWinner}}</h1>
-    <form class="rating">
-      <select name="rating-options">
-        {{#each ratingOptions}}
-          <option value={{this}}>{{this}}</option>
-        {{/each}}
-      </select>
-      <input type="submit" value="Submit">
-    </form>
-    My score is: {{averageRating}}
-  {{/if}}
-</template>
-
-<template name="restart">
-  <button id="restart">Restart</button>
 </template>
