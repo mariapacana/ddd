@@ -10,8 +10,7 @@ Template.options.helpers({
 Template.options.events({
   'click .option': function() {
       var userId = Meteor.userId();
-      var count = Votes.find({'optionId': this._id,
-                              'userId': userId,
+      var count = Votes.find({'userId': userId,
                               'round': this.round}).count();
       if (count === 0)
         Votes.insert({'userId': userId,
