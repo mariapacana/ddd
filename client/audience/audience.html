@@ -6,8 +6,11 @@
   <body>
     {{#with currentRound}}
       {{> winner}}
-      {{> options}}
-      {{> rating}}
+      {{#if needsFeedback feedback}}
+        {{> rating}}
+      {{else}}
+        {{> options}}
+      {{/if}}
     {{/with}}
   </body>
 </template>

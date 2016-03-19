@@ -6,6 +6,9 @@ Template.admin.helpers({
 });
 
 Template.admin.events({
+  'click #getFeedback': function() {
+    Meteor.call('getFeedback');
+  },
   'click #advanceRound': function() {
     Meteor.call('advanceRound');
   }

@@ -29,6 +29,10 @@ if (Meteor.isServer) {
           });
         }
     },
+    'getFeedback': function() {
+      var currentRound = Rounds.findOne({current: true});
+      Rounds.update({_id: currentRound._id}, {$set: {feedback: true}});
+    },
     'advanceRound': function(roundCount) {
       var max_rounds = 4;
       var votes;
