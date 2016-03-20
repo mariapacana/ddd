@@ -5,8 +5,11 @@
   <body>
     {{#with currentRound}}
       {{> winner}}
+      {{#if lastRoundWinner}}
+        <button id="getFeedback">Ratings For Current Round</button>
+      {{/if}}
     {{/with}}
-    <button id="getFeedback">Ratings For Current Round</button>
+    <button id="getVotes">Get Votes For Next Round</button>
     <button id="advanceRound">Advance to Next Round</button>
     {{> restart}}
   </body>

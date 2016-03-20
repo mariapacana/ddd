@@ -31,7 +31,11 @@ if (Meteor.isServer) {
     },
     'getFeedback': function() {
       var currentRound = Rounds.findOne({current: true});
-      Rounds.update({_id: currentRound._id}, {$set: {feedback: true}});
+      Rounds.update({_id: currentRound._id}, {$set: {feedback: 1}});
+    },
+    'getVotes': function() {
+      var currentRound = Rounds.findOne({current: true});
+      Rounds.update({_id: currentRound._id}, {$set: {feedback: 2}});
     },
     'advanceRound': function(roundCount) {
       var max_rounds = 4;
@@ -54,6 +58,7 @@ if (Meteor.isServer) {
                               return {length: votes.length, id: optionId};
                         });
         sortedVotes = _.sortBy(countedVotes, function(v){return v.length;});
+        console.log(sortedVotes);
         winnerId = sortedVotes[sortedVotes.length - 1].id;
         winner = Options.findOne(winnerId).text;
 

@@ -1,7 +1,7 @@
 <template name="rating">
-  {{#if lastLastRoundWinner}}
-    <h1>Rate how well I performed the task, {{lastLastRoundWinner}}</h1>
-    <form class="rating">
+  <h1>Rate how well I performed the task, {{currentRoundWinner}}</h1>
+  {{#if showRatingForm}}
+    <form id="ratingForm">
       <select name="rating-options">
         {{#each ratingOptions}}
           <option value={{this}}>{{this}}</option>
@@ -9,6 +9,6 @@
       </select>
       <input type="submit" value="Submit">
     </form>
-    My score is: {{averageRating}}
   {{/if}}
+  My score is: {{averageRating}}
 </template>

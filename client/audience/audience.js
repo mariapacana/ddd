@@ -4,6 +4,9 @@ Template.audience.helpers({
     return currentRound;
   },
   needsFeedback: function(feedback) {
-    return feedback === true;
+    return feedback === 1;
+  },
+  needsVotes: function(feedback) {
+    return feedback === 2;
   }
 });

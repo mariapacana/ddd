@@ -8,7 +8,8 @@
       {{> winner}}
       {{#if needsFeedback feedback}}
         {{> rating}}
-      {{else}}
+      {{/if}}
+      {{#if needsVotes feedback}}
         {{> options}}
       {{/if}}
     {{/with}}
