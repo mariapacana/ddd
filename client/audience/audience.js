@@ -3,10 +3,16 @@ Template.audience.helpers({
     var currentRound = Rounds.findOne({current: true});
     return currentRound;
   },
-  needsFeedback: function(feedback) {
-    return feedback === 1;
+  gettingVotes: function() {
+    var currentRound = Rounds.findOne({current: true});
+    return currentRound.state === VOTING;
   },
-  needsVotes: function(feedback) {
-    return feedback === 2;
+  performingAction: function() {
+    var currentRound = Rounds.findOne({current: true});
+    return currentRound.state === ACTION;
+  },
+  gettingFeedback: function() {
+    var currentRound = Rounds.findOne({current: true});
+    return currentRound.state === FEEDBACK;
   }
 });

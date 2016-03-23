@@ -7,21 +7,11 @@ if (Meteor.isServer) {
       Votes.remove({});
     },
     'seedData': function(roundCount) {
-        var options = [{round: 1, text: "juggling"},
-                       {round: 1, text: "singing"},
-                       {round: 1, text: "levitating"},
-                       {round: 2, text: "dancing"},
-                       {round: 2, text: "finding the meaning of life"},
-                       {round: 2, text: "getting prime factors"},
-                       {round: 3, text: "swerving"},
-                       {round: 3, text: "squiggling"},
-                       {round: 3, text: "bouncing"},
-                       {round: 4, text: "calculating"},
-                       {round: 4, text: "relating"},
-                       {round: 4, text: "prognosticating"}];
-
+        var options = SEED_OPTIONS;
         if (Rounds.find().count() === 0) {
-          Rounds.insert({roundCount: roundCount, current: true});
+          Rounds.insert({roundCount: roundCount,
+                         current: true,
+                         state: STARTING });
         }
         if (Options.find().count() === 0) {
           _.each(options, function(doc) {
@@ -30,15 +20,18 @@ if (Meteor.isServer) {
         }
     },
     'getFeedback': function() {
-      var currentRound = Rounds.findOne({current: true});
-      Rounds.update({_id: currentRound._id}, {$set: {feedback: 1}});
+      var currentRound = Rounds.findOne({current: true });
+      Rounds.update({_id: currentRound._id}, {$set: {state: FEEDBACK}});
     },
     'getVotes': function() {
       var currentRound = Rounds.findOne({current: true});
-      Rounds.update({_id: currentRound._id}, {$set: {feedback: 2}});
+      var currentRoundCount = currentRound.roundCount;
+      Rounds.update({_id: currentRound._id}, {$set: {current: false}});
+      Rounds.insert({roundCount: currentRoundCount+1,
+                     current: true,
+                     state: VOTING });
     },
     'advanceRound': function(roundCount) {
-      var max_rounds = 4;
       var votes;
       var groupedVotes;
       var countedVotes;
@@ -47,9 +40,8 @@ if (Meteor.isServer) {
       var winner;
       var currentRound = Rounds.findOne({current: true});
       var currentRoundCount = currentRound.roundCount;
-      var nextRoundCount = currentRoundCount+1;
 
-      if (currentRound && currentRound.roundCount <= max_rounds) {
+      if (currentRound && currentRound.roundCount <= MAX_ROUNDS) {
         // Show the result for the current round, by updating it with
         // the correct option
         votes = Votes.find({round: currentRound.roundCount}).fetch();
@@ -58,15 +50,12 @@ if (Meteor.isServer) {
                               return {length: votes.length, id: optionId};
                         });
         sortedVotes = _.sortBy(countedVotes, function(v){return v.length;});
-        console.log(sortedVotes);
         winnerId = sortedVotes[sortedVotes.length - 1].id;
         winner = Options.findOne(winnerId).text;
 
-        Rounds.update(currentRound._id, {$set: {winner: winner}});
-
-        // Move to the next round
-        Rounds.update({_id: currentRound._id}, {$set: {current: false}});
-        Rounds.insert({roundCount: nextRoundCount, current: true});
+        // Call a winner and start the action
+        Rounds.update(currentRound._id, {$set: {winner: winner,
+                                                state: ACTION}});
       }
     }
   });

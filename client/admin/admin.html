@@ -3,14 +3,23 @@
     <title>DDD Admin Page</title>
   </head>
   <body>
-    {{#with currentRound}}
-      {{> winner}}
-      {{#if lastRoundWinner}}
-        <button id="getFeedback">Ratings For Current Round</button>
-      {{/if}}
-    {{/with}}
-    <button id="getVotes">Get Votes For Next Round</button>
-    <button id="advanceRound">Advance to Next Round</button>
-    {{> restart}}
+    <div>
+      <h3>Current Round Controls</h3>
+      {{#with currentRound}}
+        {{#if needVotes}}
+          <button id="getVotes">Get Votes For Next Round</button>
+        {{else}}
+          {{#if needFeedback}}
+            {{ > winner }}
+            <button id="getFeedback">Ratings For Current Round</button>
+          {{else}}
+            {{#if needToAdvance}}
+              <button id="advanceRound">Advance to Next Round</button>
+            {{/if}}
+          {{/if}}
+        {{/if}}
+      {{/with}}
+    </div>
+    <div>{{> restart}}</div>
   </body>
 </template>

@@ -3,14 +3,17 @@ Template.admin.helpers({
     var currentRound = Rounds.findOne({current: true});
     return currentRound;
   },
-  lastRoundWinner: function() {
-    var lastRound;
-    if (this.roundCount && this.roundCount >= 2) {
-      lastRound = Rounds.findOne({roundCount: this.roundCount-1});
-      return lastRound && lastRound.winner;
-    } else {
-      return false;
-    }
+  needToAdvance: function() {
+    var currentRound = Rounds.findOne({current: true});
+    return currentRound.state === VOTING;
+  },
+  needFeedback: function() {
+    var currentRound = Rounds.findOne({current: true});
+    return currentRound.state === ACTION;
+  },
+  needVotes: function() {
+    var currentRound = Rounds.findOne({current: true});
+    return currentRound.state == STARTING || currentRound.state === FEEDBACK;
   }
 });
 

@@ -5,12 +5,16 @@
 
   <body>
     {{#with currentRound}}
-      {{> winner}}
-      {{#if needsFeedback feedback}}
-        {{> rating}}
-      {{/if}}
-      {{#if needsVotes feedback}}
+      {{#if gettingVotes}}
         {{> options}}
+      {{else}}
+        {{#if performingAction}}
+          {{ > winner}}
+        {{else}}
+          {{#if gettingFeedback}}
+            {{> rating}}
+          {{/if}}
+        {{/if}}
       {{/if}}
     {{/with}}
   </body>
