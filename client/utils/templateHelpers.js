@@ -26,19 +26,5 @@ Template.registerHelper('currentRoundWinner', function() {
 });
 
 Template.registerHelper('currentRoundRating', function() {
-  var ratings;
-  var ratingValues;
-  var ratingSum;
-  var average = "Not Ready";
-
-  if (this.roundCount && this.roundCount >= 1) {
-    ratings = Ratings.find({roundCount: this.roundCount}).fetch();
-    ratingValues = _.pluck(ratings, 'value');
-    if (ratingValues.length !== 0) {
-      ratingSum = ratingValues.reduce(function(a, b) { return a + b; });
-      average = ratingSum / ratingValues.length;
-    }
-  }
-
-  return average;
+  return averageRating(this);
 });
