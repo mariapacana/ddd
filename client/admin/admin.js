@@ -1,15 +1,12 @@
 Template.admin.helpers({
   needToAdvance: function() {
-    var currentRound = Rounds.findOne({current: true});
-    return currentRound.state === VOTING;
+    return this.state === VOTING;
   },
   needFeedback: function() {
-    var currentRound = Rounds.findOne({current: true});
-    return currentRound.state === ACTION;
+    return this.state === ACTION;
   },
   needVotes: function() {
-    var currentRound = Rounds.findOne({current: true});
-    return currentRound.state == STARTING || currentRound.state === FEEDBACK;
+    return this.state == STARTING || this.state === FEEDBACK;
   }
 });
 
