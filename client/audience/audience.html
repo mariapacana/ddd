@@ -9,10 +9,11 @@
         {{> options}}
       {{else}}
         {{#if performingAction}}
-          {{ > winner}}
+          {{> winner}}
         {{else}}
           {{#if gettingFeedback}}
             {{> rating}}
+            {{> currentRating}}
           {{/if}}
         {{/if}}
       {{/if}}

@@ -1,5 +1,5 @@
 Template.projector.helpers({
-  totalScore: function() {
+  totalRating: function() {
     var ratings;
     var ratingValues;
     var ratingSum;

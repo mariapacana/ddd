@@ -7,32 +7,6 @@ Template.rating.helpers({
   ratingOptions: [100, 90, 80, 70, 60, 50, 40, 30, 20, 10],
   showRatingForm: function() {
     return Session.get('showRatingForm') === true;
-  },
-  currentRoundWinner: function() {
-    var currentRound;
-    if (this.roundCount && this.roundCount >= 1) {
-      currentRound = Rounds.findOne({roundCount: this.roundCount});
-      return currentRound && currentRound.winner;
-    } else {
-      return false;
-    }
-  },
-  averageRating: function() {
-    var ratings;
-    var ratingValues;
-    var ratingSum;
-    var average = "Not Ready";
-
-    if (this.roundCount && this.roundCount >= 1) {
-      ratings = Ratings.find({roundCount: this.roundCount}).fetch();
-      ratingValues = _.pluck(ratings, 'value');
-      if (ratingValues.length !== 0) {
-        ratingSum = ratingValues.reduce(function(a, b) { return a + b; });
-        average = ratingSum / ratingValues.length;
-      }
-    }
-
-    return average;
   }
 });
 
