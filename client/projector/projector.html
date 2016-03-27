@@ -1,16 +1,18 @@
 <template name="projector">
-  <h1>Total Score: {{totalRating}}</h1>
-  {{#with currentRound}}
-      {{#if gettingVotes}}
-        {{> options}}
-      {{else}}
-        {{#if performingAction}}
-          {{ > winner}}
+  <div class="projector">
+    <h1>Total Score: {{totalRating}}</h1>
+    {{#with currentRound}}
+        {{#if gettingVotes}}
+          {{> options}}
         {{else}}
-          {{#if gettingFeedback}}
-            {{> currentRating}}
+          {{#if performingAction}}
+            {{ > winner}}
+          {{else}}
+            {{#if gettingFeedback}}
+              {{> currentRating}}
+            {{/if}}
           {{/if}}
-        {{/if}}
-    {{/if}}
-  {{/with}}
+      {{/if}}
+    {{/with}}
+  </div>
 </template>
