@@ -5,15 +5,19 @@
 
   <body>
     {{#with currentRound}}
-      {{#if gettingVotes}}
-        {{> options}}
+      {{#if gameOver}}
+        <div> Thanks for Playing! </div>
       {{else}}
-        {{#if performingAction}}
-          {{> winner}}
+        {{#if gettingVotes}}
+          {{> options}}
         {{else}}
-          {{#if gettingFeedback}}
-            {{> rating}}
-            {{> currentRating}}
+          {{#if performingAction}}
+            {{> winner}}
+          {{else}}
+            {{#if gettingFeedback}}
+              {{> rating}}
+              {{> currentRating}}
+            {{/if}}
           {{/if}}
         {{/if}}
       {{/if}}

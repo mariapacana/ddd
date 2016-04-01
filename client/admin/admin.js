@@ -7,6 +7,11 @@ Template.admin.helpers({
   },
   needVotes: function() {
     return this.state == STARTING || this.state === FEEDBACK;
+  },
+  advanceButtonText: function() {
+    return (this.roundCount < MAX_ROUNDS)
+      ? "Go to Next Round"
+      : "End Game";
   }
 });
 
@@ -18,6 +23,10 @@ Template.admin.events({
     Meteor.call('getVotes');
   },
   'click #advanceRound': function() {
-    Meteor.call('advanceRound');
+    if (this.roundCount < MAX_ROUNDS) {
+      Meteor.call('advanceRound');
+    } else {
+      Meteor.call('endGame');
+    }
   }
 });
