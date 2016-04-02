@@ -7,6 +7,7 @@
       <h1>Current Round Controls</h1>
       {{#with currentRound}}
         {{#if needVotes}}
+            {{> currentRating}}
           <button id="getVotes">Get Votes For Next Round</button>
         {{else}}
           {{#if needFeedback}}
@@ -15,7 +16,12 @@
           {{else}}
             {{#if needToAdvance}}
               {{ > options }}
-              <button id="advanceRound">{{advanceButtonText}}</button>
+              <button id="advanceRound">Next Round</button>
+            {{else}}
+              {{#if needToEndGame}}
+                {{> currentRating}}
+                <button id="endGame">End Game</button>
+              {{/if}}
             {{/if}}
           {{/if}}
         {{/if}}

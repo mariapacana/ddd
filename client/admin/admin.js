@@ -1,17 +1,16 @@
 Template.admin.helpers({
   needToAdvance: function() {
-    return this.state === VOTING;
+    return this.state === VOTING
   },
   needFeedback: function() {
     return this.state === ACTION;
   },
   needVotes: function() {
-    return this.state == STARTING || this.state === FEEDBACK;
+    return this.state === STARTING
+      || (this.state === FEEDBACK && this.roundCount !== MAX_ROUNDS);
   },
-  advanceButtonText: function() {
-    return (this.roundCount < MAX_ROUNDS)
-      ? "Go to Next Round"
-      : "End Game";
+  needToEndGame: function() {
+    return this.roundCount === MAX_ROUNDS && this.state === FEEDBACK;
   }
 });
 
@@ -23,10 +22,9 @@ Template.admin.events({
     Meteor.call('getVotes');
   },
   'click #advanceRound': function() {
-    if (this.roundCount < MAX_ROUNDS) {
-      Meteor.call('advanceRound');
-    } else {
-      Meteor.call('endGame');
-    }
+    Meteor.call('advanceRound');
+  },
+  'click #endGame': function() {
+    Meteor.call('endGame');
   }
 });

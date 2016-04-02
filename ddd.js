@@ -13,6 +13,7 @@ if (Meteor.isServer) {
                          current: true,
                          state: STARTING });
         }
+
         if (Options.find().count() === 0) {
           _.each(options, function(doc) {
             Options.insert(doc);
@@ -26,10 +27,14 @@ if (Meteor.isServer) {
     'getVotes': function() {
       var currentRound = Rounds.findOne({current: true});
       var currentRoundCount = currentRound.roundCount;
-      Rounds.update({_id: currentRound._id}, {$set: {current: false}});
-      Rounds.insert({roundCount: currentRoundCount+1,
-                     current: true,
-                     state: VOTING });
+      if (currentRound.state === STARTING) {
+        Rounds.update({_id: currentRound._id}, {$set: {state: VOTING}});
+      } else {
+        Rounds.update({_id: currentRound._id}, {$set: {current: false}});
+        Rounds.insert({roundCount: currentRoundCount+1,
+                       current: true,
+                       state: VOTING});
+      }
     },
     'advanceRound': function(roundCount) {
       var votes;
@@ -57,6 +62,10 @@ if (Meteor.isServer) {
         Rounds.update(currentRound._id, {$set: {winner: winner,
                                                 state: ACTION}});
       }
+    },
+    'endGame': function(roundCount) {
+      var currentRound = Rounds.findOne({current: true});
+      Rounds.update(currentRound._id, {$set: {state: ENDING }});
     }
   });
 
