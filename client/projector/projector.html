@@ -1,6 +1,5 @@
 <template name="projector">
   <div class="projector">
-    <h1>Total Score: {{totalRating}}</h1>
     {{#with currentRound}}
         {{#if gettingVotes}}
           {{> options}}
@@ -8,6 +7,7 @@
           {{#if performingAction}}
             {{ > winner}}
           {{else}}
+            <h1>Total Score: {{totalRating}}</h1>
             {{#if gettingFeedback}}
               {{> currentRating}}
             {{/if}}
