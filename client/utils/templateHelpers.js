@@ -29,6 +29,10 @@ Template.registerHelper('currentRoundRating', function() {
   return averageRating(this);
 });
 
+Template.registerHelper('currentRoundCount', function() {
+  return (this.roundCount) ? this.roundCount : null;
+})
+
 Template.registerHelper('gameOver', function() {
   return this.roundCount === MAX_ROUNDS && this.state === ENDING;
 });
