@@ -22,6 +22,7 @@ Template.admin.events({
     Meteor.call('getVotes');
   },
   'click #advanceRound': function() {
+    debugger;
     Meteor.call('advanceRound');
   },
   'click #endGame': function() {

@@ -10,9 +10,13 @@
             {{#if performingAction}}
               {{> winner}}
             {{else}}
-              <h1>Total Score: {{totalRating}}</h1>
               {{#if gettingFeedback}}
-                {{> currentRating}}
+                <div class="ratings-current">
+                  <h1>Total Score: {{totalRating}}</h1>
+                  {{> currentRating}}
+                </div>
+              {{else}}
+                <div>Welcome to the Dreamily Customer Support Training Program!</div>
               {{/if}}
             {{/if}}
         {{/if}}
