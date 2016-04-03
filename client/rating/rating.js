@@ -1,40 +1,23 @@
-Template.rating.onRendered(function () {
-  // Always show form
-  Session.set('showRatingForm', true);
-});
-
 Template.rating.helpers({
-  ratingOptions: [100, 90, 80, 70, 60, 50, 40, 30, 20, 10],
-  showRatingForm: function() {
-    return Session.get('showRatingForm') === true;
-  }
+  ratingOptions: [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10]
 });
 
 Template.rating.events({
-  "submit #ratingForm": function (event) {
+  "change .selected-rating": function (event) {
     // Prevent default browser form submit
     event.preventDefault();
 
     // Get value from form element
-    var rating = $(event.target).find("select").val();
-
-    var currentRound = Rounds.findOne({roundCount: this.roundCount});
-
-    var userId = Meteor.userId();
-
-    var count = Ratings.find({'userId': userId,
-                              'roundCount': this.roundCount}).count();
+    var rating = $(event.target).val();
 
     // Insert a rating
-    if (count === 0) {
+    if (!userHasVotedInCurrentRound(this.roundCount)) {
       Ratings.insert({
-        roundCount: currentRound.roundCount,
+        roundCount: this.roundCount,
         value: parseInt(rating, 10),
         createdAt: new Date(), // current time,
-        userId: userId
+        userId: Meteor.userId()
       });
     }
-
-    Session.set("showRatingForm", false);
   }
 });

@@ -16,8 +16,11 @@
           {{else}}
             {{#if gettingFeedback}}
               <div>
-                {{> rating}}
-                {{> currentRating}}
+                {{#if submittedRating}}
+                  {{> currentRating}}
+                {{else}}
+                  {{> rating}}
+                {{/if}}
               </div>
             {{else}}
               <div>Welcome to the Dreamily Customer Support Training Program!</div>

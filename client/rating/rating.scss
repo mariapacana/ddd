@@ -1,0 +1,19 @@
+.rating {
+  h1 {
+    margin-bottom: 5px;
+  }
+
+  .rating-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .selected-rating {
+      height: 27px;
+      font-size: 21px;
+      border-radius: 4px;
+      margin-left: 10px;
+
+    }
+  }
+}

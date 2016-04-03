@@ -36,3 +36,7 @@ Template.registerHelper('currentRoundCount', function() {
 Template.registerHelper('gameOver', function() {
   return this.roundCount === MAX_ROUNDS && this.state === ENDING;
 });
+
+Template.registerHelper('submittedRating', function() {
+  return userHasVotedInCurrentRound(this.roundCount);
+});

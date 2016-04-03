@@ -1,5 +1,8 @@
 Template.projector.helpers({
   totalRating: function() {
-    return averageRating(this, true);
+    var totalRating = averageRating(this, true);
+    return (totalRating === "not ready")
+      ? "Not Ready"
+      : totalRating;
   }
 });
