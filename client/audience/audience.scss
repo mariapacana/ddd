@@ -1,0 +1,31 @@
+.audience {
+  min-width: 320px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  background-color: #1abc9c;
+
+  text-align: center;
+  font-size: 25px;
+
+  h1 {
+    font-size: 29px;
+  }
+
+  ul {
+    margin: 0 auto;
+  }
+
+  .options, .ending {
+    width: 320px;
+    margin: 0 auto;
+
+    a {
+      color: white;
+    }
+  }
+
+}

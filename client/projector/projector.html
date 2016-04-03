@@ -1,17 +1,21 @@
 <template name="projector">
   <div class="projector">
     {{#with currentRound}}
-        {{#if gettingVotes}}
-          {{> options}}
+      {{#if gameOver}}
+        {{> ending}}
         {{else}}
-          {{#if performingAction}}
-            {{ > winner}}
+          {{#if gettingVotes}}
+            {{> options}}
           {{else}}
-            <h1>Total Score: {{totalRating}}</h1>
-            {{#if gettingFeedback}}
-              {{> currentRating}}
+            {{#if performingAction}}
+              {{> winner}}
+            {{else}}
+              <h1>Total Score: {{totalRating}}</h1>
+              {{#if gettingFeedback}}
+                {{> currentRating}}
+              {{/if}}
             {{/if}}
-          {{/if}}
+        {{/if}}
       {{/if}}
     {{/with}}
   </div>

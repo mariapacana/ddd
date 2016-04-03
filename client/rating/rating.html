@@ -1,13 +1,17 @@
 <template name="rating">
-  <h1>Rate the task {{currentRoundWinner}}</h1>
-  {{#if showRatingForm}}
-    <form id="ratingForm">
-      <select name="rating-options">
-        {{#each ratingOptions}}
-          <option value={{this}}>{{this}}</option>
-        {{/each}}
-      </select>
-      <input type="submit" value="Submit">
-    </form>
-  {{/if}}
+  <div class="rating">
+    <h1>Rate the task {{currentRoundWinner}}</h1>
+    {{#if showRatingForm}}
+    <div>
+      <form id="ratingForm">
+        <select name="rating-options">
+          {{#each ratingOptions}}
+            <option value={{this}}>{{this}}</option>
+          {{/each}}
+        </select>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+    {{/if}}
+  </div>
 </template>

@@ -3,10 +3,10 @@
     <title>ddd</title>
   </head>
 
-  <body>
+  <div class="audience">
     {{#with currentRound}}
       {{#if gameOver}}
-        <div> Thanks for Playing! </div>
+        {{> ending}}
       {{else}}
         {{#if gettingVotes}}
           {{> options}}
@@ -15,12 +15,14 @@
             {{> winner}}
           {{else}}
             {{#if gettingFeedback}}
-              {{> rating}}
-              {{> currentRating}}
+              <div>
+                {{> rating}}
+                {{> currentRating}}
+              </div>
             {{/if}}
           {{/if}}
         {{/if}}
       {{/if}}
     {{/with}}
-  </body>
+  </div>
 </template>

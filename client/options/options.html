@@ -1,11 +1,13 @@
 <template name="options">
-  <h1>What should I do next?</h1>
-  <ul>
-    {{#each options}}
-      <li>
-        <a href class="option">{{text}}</a>
-        {{optionVotes}}
-      </li>
-    {{/each}}
-  </ul>
+  <div class="options">
+    <h1>What should I do next?</h1>
+    <ul>
+      {{#each options}}
+        <li>
+          <a href class="option">{{text}}</a>
+          {{optionVotes}}
+        </li>
+      {{/each}}
+    </ul>
+  </div>
 </template>
