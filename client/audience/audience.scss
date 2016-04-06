@@ -1,5 +1,5 @@
 .audience {
-  min-width: 320px;
+  min-width: 1000px;
   height: 100%;
   display: flex;
   align-items: center;
@@ -9,10 +9,10 @@
   background-color: #1abc9c;
 
   text-align: center;
-  font-size: 25px;
+  font-size: 70px;
 
   h1 {
-    font-size: 29px;
+    font-size: 80px;
   }
 
   ul {
@@ -20,7 +20,7 @@
   }
 
   .options, .ending {
-    width: 320px;
+    width: 1000px;
     margin: 0 auto;
 
     a {
