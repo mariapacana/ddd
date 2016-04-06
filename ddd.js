@@ -1,6 +1,10 @@
 if (Meteor.isServer) {
   Meteor.methods({
     'clearData': function() {
+      // Delete all old anonymous accounts
+      var before = new Date();
+      Accounts.removeOldGuests(before);
+
       Options.remove({});
       Ratings.remove({});
       Rounds.remove({});
