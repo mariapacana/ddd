@@ -38,7 +38,7 @@ Template.registerHelper('gameOver', function() {
 });
 
 Template.registerHelper('submittedRating', function() {
-  return userHasVotedInCurrentRound(this.roundCount);
+  return userHasVotedForAllPlayersInCurrentRound(this);
 });
 
 Template.registerHelper('userShouldBeInvited', function() {

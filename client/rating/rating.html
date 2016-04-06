@@ -1,15 +1,23 @@
 <template name="rating">
   <div class="rating">
     <h1>Rate the task</h1>
-    <div>
-      <form class="rating-form">
-        {{currentRoundWinner}}
-        <select class="selected-rating">
-          {{#each ratingOptions}}
-            <option value={{this}}>{{this}}</option>
-          {{/each}}
-        </select>
-      </form>
-    </div>
+    {{currentRoundWinner}}
+    {{# if isVersusMode}}
+      {{ > _rating performer=2}}
+    {{/if}}
+    {{ > _rating performer=1}}
+  </div>
+</template>
+
+<template name="_rating">
+  <div class="_rating">
+    <form class="rating-form">
+      Player {{performer}}
+      <select class="selected-rating">
+        {{#each ratingOptions}}
+          <option value={{this}}>{{this}}</option>
+        {{/each}}
+      </select>
+    </form>
   </div>
 </template>
