@@ -5,6 +5,9 @@
 
   <div class="audience">
     {{#with currentRound}}
+      {{#if userShouldBeInvited}}
+        {{> invite}}
+      {{/if}}
       {{#if gameOver}}
         {{> ending}}
       {{else}}

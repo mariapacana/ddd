@@ -5,6 +5,7 @@ if (Meteor.isServer) {
       Ratings.remove({});
       Rounds.remove({});
       Votes.remove({});
+      Invites.remove({});
     },
     'seedData': function(roundCount) {
         var options = SEED_OPTIONS;
@@ -46,20 +47,26 @@ if (Meteor.isServer) {
       var currentRound = Rounds.findOne({current: true});
       var currentRoundCount = currentRound.roundCount;
 
-      if (currentRound && currentRound.roundCount <= MAX_ROUNDS) {
+      if (currentRound && currentRoundCount <= MAX_ROUNDS) {
         // Show the result for the current round, by updating it with
         // the correct option
-        votes = Votes.find({round: currentRound.roundCount}).fetch();
+        votes = Votes.find({round: currentRoundCount}).fetch();
         groupedVotes = _.groupBy(votes, function(vote){return vote.optionId});
         countedVotes = _.map(groupedVotes, function(votes, optionId){
                               return {length: votes.length, id: optionId};
                         });
         sortedVotes = _.sortBy(countedVotes, function(v){return v.length;});
         winnerId = sortedVotes[sortedVotes.length - 1].id;
-        winner = Options.findOne(winnerId).text;
+        winner = Options.findOne(winnerId);
+
+        if (winner.mode === "versus") {
+          randomUserId = _.sample(_.pluck(Meteor.users.find().fetch(), "_id"));
+          Invites.insert({ userId: randomUserId,
+                           round: currentRoundCount});
+        }
 
         // Call a winner and start the action
-        Rounds.update(currentRound._id, {$set: {winner: winner,
+        Rounds.update(currentRound._id, {$set: {winner: winner.text,
                                                 state: ACTION}});
       }
     },

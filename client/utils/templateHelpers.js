@@ -40,3 +40,7 @@ Template.registerHelper('gameOver', function() {
 Template.registerHelper('submittedRating', function() {
   return userHasVotedInCurrentRound(this.roundCount);
 });
+
+Template.registerHelper('userShouldBeInvited', function() {
+  return userShouldBeInvited(Meteor.userId(), this.roundCount);
+})
