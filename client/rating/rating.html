@@ -2,10 +2,10 @@
   <div class="rating">
     <h1>Rate the task</h1>
     {{currentRoundWinner}}
+    {{ > _rating performer=1}}
     {{# if isVersusMode}}
       {{ > _rating performer=2}}
     {{/if}}
-    {{ > _rating performer=1}}
   </div>
 </template>
 
