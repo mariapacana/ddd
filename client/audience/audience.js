@@ -1,14 +1,13 @@
 Template.audience.onRendered(function() {
-  Session.set('showInvite', true);
+  Session.set('showMessage', false);
 });
 
 Template.audience.helpers({
-  'userShouldBeInvited': function() {
-    return userShouldBeInvited(Meteor.userId(), this.roundCount)
-      && Session.get('showInvite', true);
+  'showMessage': function() {
+    return Session.get('showMessage');
   },
-  'inviteText': function() {
-    return "Please join Ramona onstage!";
+  'messageText': function() {
+    return Session.get('messageText');
   },
   'isManager': function() {
     var role = Meteor.users.findOne({_id: Meteor.userId()}).role;

@@ -5,6 +5,9 @@
 
   <div class="audience">
     {{#with currentRound}}
+      {{#if showMessage}}
+        {{> message messageText}}
+      {{/if}}
       {{#if gameOver}}
         {{> ending}}
       {{else}}
@@ -12,9 +15,6 @@
           {{> options}}
         {{else}}
           {{#if performingAction}}
-            {{#if userShouldBeInvited}}
-              {{> message inviteText}}
-            {{/if}}
             {{> winner}}
           {{else}}
             {{#if gettingFeedback}}
