@@ -26,14 +26,7 @@
                 {{/if}}
               </div>
             {{else}}
-              <div>
-                Welcome to Dreamily!
-                {{#if isManager}}
-                  You are a manager.
-                {{else}}
-                  You are a worker.
-                {{/if}}
-              </div>
+              {{> welcome}}
             {{/if}}
           {{/if}}
         {{/if}}

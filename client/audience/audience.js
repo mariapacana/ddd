@@ -8,9 +8,5 @@ Template.audience.helpers({
   },
   'messageText': function() {
     return Session.get('messageText');
-  },
-  'isManager': function() {
-    var role = Meteor.users.findOne({_id: Meteor.userId()}).role;
-    return role === "manager";
   }
 });
