@@ -13,7 +13,7 @@
         {{else}}
           {{#if performingAction}}
             {{#if userShouldBeInvited}}
-              {{> invite}}
+              {{> message inviteText}}
             {{/if}}
             {{> winner}}
           {{else}}
@@ -26,7 +26,14 @@
                 {{/if}}
               </div>
             {{else}}
-              <div>Welcome to the Dreamily Customer Support Training Program!</div>
+              <div>
+                Welcome to Dreamily!
+                {{#if isManager}}
+                  You are a manager.
+                {{else}}
+                  You are a worker.
+                {{/if}}
+              </div>
             {{/if}}
           {{/if}}
         {{/if}}

@@ -1,5 +1,5 @@
 /* The Modal (background) */
-.invite {
+.message {
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
@@ -9,7 +9,7 @@
     overflow: auto; /* Enable scroll if needed */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 
-    .invite-content {
+    .message-content {
         background-color: #fefefe;
         color: red;
         margin: 15% auto; /* 15% from the top and centered */

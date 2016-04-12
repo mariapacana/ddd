@@ -81,6 +81,16 @@ if (Meteor.isServer) {
     }
   });
 
+  // Makes a user a manager or a worker right away.
+  Accounts.onCreateUser(function(options, user) {
+    var numWorkers = Meteor.users.find({role: "worker"}).count();
+    var numManagers = Meteor.users.find({role: "manager"}).count();
+    var role = (numWorkers > numManagers) ? "manager" : "worker";
+    user.role = role;
+
+    return user;
+  });
+
   Meteor.startup(function () {
     var roundCount = 1;
     Meteor.call('seedData', roundCount);

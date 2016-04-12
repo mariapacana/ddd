@@ -1,4 +1,4 @@
-Template.invite.events({
+Template.message.events({
   'click #consent': function() {
     Session.set('showInvite', false);
   },
