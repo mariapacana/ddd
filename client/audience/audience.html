@@ -5,8 +5,8 @@
 
   <div class="audience">
     {{#with currentRound}}
-      {{#if showMessage}}
-        {{> message messageText}}
+      {{#if userHasMessage}}
+        {{> message }}
       {{/if}}
       {{#if gameOver}}
         {{> ending}}

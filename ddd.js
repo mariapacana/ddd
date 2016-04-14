@@ -64,10 +64,10 @@ if (Meteor.isServer) {
         winner = Options.findOne(winnerId);
 
         if (winner.mode === "versus") {
-          var allUsersMinusAdmin = Meteor.users.find({profile: {guest: true}}).fetch();
-          var randomUserIdMinusAdmin = _.sample(_.pluck(allUsersMinusAdmin, '_id'));
+          var randomUserIdMinusAdmin = _.sample(allUserIdsMinusAdmin());
           Invites.insert({ userId: randomUserIdMinusAdmin,
-                           round: currentRoundCount});
+                           round: currentRoundCount,
+                           state: "invited" });
         }
 
         // Call a winner and start the action
