@@ -15,9 +15,9 @@ Template.registerHelper('gettingFeedback', function() {
   return this.state === FEEDBACK;
 });
 
-Template.registerHelper('isManager', function() {
-  var role = Meteor.users.findOne({_id: Meteor.userId()}).role;
-    return role === "manager";
+Template.registerHelper('currentUserRole', function() {
+  var currentUser = Meteor.users.findOne({_id: Meteor.userId()});
+  return (currentUser && currentUser.role) ? currentUser.role : '...';
 });
 
 Template.registerHelper('currentRoundWinner', function() {
