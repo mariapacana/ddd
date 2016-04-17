@@ -11,7 +11,7 @@ Template.message.events({
     declineInvite(inviteId);
     var currentRoundMode = Options.findOne({_id: this.winnerId}).mode;
     var invitableIds = _.difference(getInvitableIds(currentRoundMode),
-                                    getDeclinedUsers(this.roundCount));
+                                    getDeclinedInvitees(this.roundCount));
     if (invitableIds.length > 0) {
       issueInvite(_.sample(invitableIds), this.roundCount);
     }
