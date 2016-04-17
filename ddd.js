@@ -64,15 +64,11 @@ if (Meteor.isServer) {
         winnerId = sortedVotes[sortedVotes.length - 1].id;
         winner = Options.findOne(winnerId);
 
-        if (winner.mode === "versus") {
-          var randomUserIdMinusAdmin = _.sample(allUserIdsMinusAdmin());
-          Invites.insert({ userId: randomUserIdMinusAdmin,
-                           round: currentRoundCount,
-                           state: "invited" });
-        }
+        issueInvitesIfNeeded(winner.mode, currentRoundCount);
 
         // Call a winner and start the action
         Rounds.update(currentRound._id, {$set: {winner: winner.text,
+                                                winnerId: winnerId,
                                                 state: ACTION}});
       }
     },
@@ -84,11 +80,12 @@ if (Meteor.isServer) {
 
   // Makes a user a manager or a worker right away.
   Accounts.onCreateUser(function(options, user) {
-    var numWorkers = Meteor.users.find({role: "worker"}).count();
-    var numManagers = Meteor.users.find({role: "manager"}).count();
-    var role = (numWorkers > numManagers) ? "manager" : "worker";
-    user.role = role;
-
+    if (user.profile && user.profile.guest) {
+      var numWorkers = Meteor.users.find({role: "worker"}).count();
+      var numManagers = Meteor.users.find({role: "manager"}).count();
+      var role = (numWorkers > numManagers) ? "manager" : "worker";
+      user.role = role;
+    }
     return user;
   });
 

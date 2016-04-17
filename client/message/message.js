@@ -8,17 +8,14 @@ Template.message.events({
   'click #no': function() {
     var inviteId = Invites.findOne({userId: Meteor.userId(),
                                     round: this.roundCount})._id;
-    Invites.update({_id: inviteId}, {$set: {state: "declined"}});
-    var declinedUsers = _.pluck(Invites.find({round: this.roundCount,
-                            state: "declined"}).fetch(), 'userId');
-    var allUsersMinusAdmin = allUserIdsMinusAdmin();
-    var invitableUsers = _.difference(allUsersMinusAdmin, declinedUsers);
-    if (invitableUsers.length > 0) {
-      var randomUserId = _.sample(invitableUsers);
-      Invites.insert({ userId: randomUserId,
-                       round: this.roundCount,
-                       state: "invited" });
+    declineInvite(inviteId);
+    var currentRoundMode = Options.findOne({_id: this.winnerId}).mode;
+    var invitableIds = _.difference(getInvitableIds(currentRoundMode),
+                                    getDeclinedUsers(this.roundCount));
+    if (invitableIds.length > 0) {
+      issueInvite(_.sample(invitableIds), this.roundCount);
     }
+
     Session.set('showMessage', false);
   },
 });
