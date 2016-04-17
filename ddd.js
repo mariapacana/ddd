@@ -1,4 +1,5 @@
 if (Meteor.isServer) {
+  AccountsGuest.anonymous = true;
   Meteor.methods({
     'clearData': function() {
       // Delete all old anonymous accounts
