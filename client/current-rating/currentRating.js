@@ -6,14 +6,7 @@ Template.currentRating.helpers({
 
 Template._currentRating.helpers({
   performer: function() {
-    switch (this.performer) {
-      case 'ramona':
-        return "Ramona";
-      case 'ramonaworker':
-        return "Ramona and Worker";
-      case 'manager':
-        return "Manager";
-    }
+    return (this.performer) ? performerNameDisplay[this.performer] : '';
   },
   performerRating: function() {
     return this.rating;
