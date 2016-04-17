@@ -8,7 +8,9 @@
       <h1>Current Round Controls</h1>
       {{#with currentRound}}
         {{#if needVotes}}
+          {{#if gettingVotes}}
             {{> currentRating}}
+          {{/if}}
           <button id="getVotes">Get Votes For Next Round</button>
         {{else}}
           {{#if needFeedback}}

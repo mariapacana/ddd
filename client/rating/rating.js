@@ -1,13 +1,21 @@
 Template.rating.helpers({
-  isVersusMode: function() {
-    return currentRoundWinner(this).mode === "versus";
+  currentRoundPerformers: function() {
+    var mode = currentRoundWinner(this).mode;
+    return performersByMode[mode];
   }
 });
 
 Template._rating.helpers({
   ratingOptions: ['Select', 100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10],
   performer: function() {
-    return this.performer;
+    switch (this.performer) {
+      case 'ramona':
+        return "Ramona";
+      case 'ramonaworker':
+        return "Ramona and Worker";
+      case 'manager':
+        return "Manager";
+    }
   }
 });
 

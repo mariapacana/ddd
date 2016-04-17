@@ -1,5 +1,12 @@
 <template name="currentRating">
+  {{currentRoundWinner}}
+  {{#each performerAndRating}}
+    {{ > _currentRating performer=performer rating=rating }}
+  {{/each}}
+</template>
+
+<template name="_currentRating">
   <div class="currentRating">
-    {{currentRoundWinner}}: {{currentRoundRating}}
+    {{performer}}: {{performerRating}}
   </div>
 </template>
