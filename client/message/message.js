@@ -9,8 +9,7 @@ Template.message.events({
     var inviteId = Invites.findOne({userId: Meteor.userId(),
                                     round: this.roundCount})._id;
     declineInvite(inviteId);
-    var currentRoundMode = Options.findOne({_id: this.winnerId}).mode;
-    var invitableIds = _.difference(getInvitableIds(currentRoundMode),
+    var invitableIds = _.difference(getInvitableIds(this.mode),
                                     getDeclinedInvitees(this.roundCount));
     if (invitableIds.length > 0) {
       issueInvite(_.sample(invitableIds), this.roundCount);

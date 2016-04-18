@@ -2,8 +2,7 @@ Template.rating.helpers({
   // XXX: Refactor
   performerData: function() {
     var self = this;
-    var mode = currentRoundWinner(this).mode;
-    var performers = performersByMode[mode];
+    var performers = performersByMode[self.mode];
     return _.map(performers, function(performer) {
       return {performer: performer, currentRoundCount: self.roundCount};
     });

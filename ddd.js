@@ -13,17 +13,11 @@ if (Meteor.isServer) {
       Invites.remove({});
     },
     'seedData': function(roundCount) {
-        var options = SEED_OPTIONS;
         if (Rounds.find().count() === 0) {
-          Rounds.insert({roundCount: roundCount,
-                         current: true,
-                         state: STARTING });
+          _.each(SEED_ROUNDS, function(doc) { Rounds.insert(doc); });
         }
-
         if (Options.find().count() === 0) {
-          _.each(options, function(doc) {
-            Options.insert(doc);
-          });
+          _.each(SEED_OPTIONS, function(doc) { Options.insert(doc); });
         }
     },
     'getFeedback': function() {
@@ -37,9 +31,7 @@ if (Meteor.isServer) {
         Rounds.update({_id: currentRound._id}, {$set: {state: VOTING}});
       } else {
         Rounds.update({_id: currentRound._id}, {$set: {current: false}});
-        Rounds.insert({roundCount: currentRoundCount+1,
-                       current: true,
-                       state: VOTING});
+        Rounds.update({roundCount: currentRoundCount+1}, {$set: {current: true}});
       }
     },
     'advanceRound': function(roundCount) {
@@ -57,7 +49,7 @@ if (Meteor.isServer) {
         // the correct option
         votes = Votes.find({round: currentRoundCount}).fetch();
         groupedVotes = _.groupBy(votes, function(vote){return vote.optionId});
-        countedVotes = _.map(groupedVotes, function(votes, optionId){
+        countedVotes = _.map(groupedVotes, function(votes, optionId) {
                               return {length: votes.length, id: optionId};
                         });
         sortedVotes = _.sortBy(countedVotes, function(v){return v.length;});
