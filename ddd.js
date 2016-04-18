@@ -39,8 +39,11 @@ if (Meteor.isServer) {
       var groupedVotes;
       var countedVotes;
       var sortedVotes;
-      var winnerId;
-      var winner;
+      var winnerIds;
+      var winner1;
+      var winner2;
+      var winners;
+      var winnerText;
       var currentRound = Rounds.findOne({current: true});
       var currentRoundCount = currentRound.roundCount;
 
@@ -50,17 +53,30 @@ if (Meteor.isServer) {
         votes = Votes.find({round: currentRoundCount}).fetch();
         groupedVotes = _.groupBy(votes, function(vote){return vote.optionId});
         countedVotes = _.map(groupedVotes, function(votes, optionId) {
-                              return {length: votes.length, id: optionId};
+                              return {numVotes: votes.length, id: optionId};
                         });
-        sortedVotes = _.sortBy(countedVotes, function(v){return v.length;});
-        winnerId = sortedVotes[sortedVotes.length - 1].id;
-        winner = Options.findOne(winnerId);
+        sortedVotes = _.sortBy(countedVotes, function(v){return v.numVotes;});
 
-        issueInvitesIfNeeded(winner.mode, currentRoundCount);
+        winner1 = sortedVotes[sortedVotes.length - 1];
+        winners = [winner1];
+        if (sortedVotes.length > 1) {
+          winner2 = sortedVotes[sortedVotes.length - 2];
+          if (winner1.numVotes === winner2.numVotes) {
+            winners.push(winner2);
+          }
+        }
+
+        winnerIds = _.pluck(winners, 'id');
+
+        winnersText = _.map(winnerIds, function(winnerId) {
+          return Options.findOne({_id: winnerId}).text;
+        }).join(", ");
+
+        issueInvitesIfNeeded(currentRound.mode, currentRoundCount);
 
         // Call a winner and start the action
-        Rounds.update(currentRound._id, {$set: {winner: winner.text,
-                                                winnerId: winnerId,
+        Rounds.update(currentRound._id, {$set: {winner: winnersText,
+                                                winnerIds: winnerIds,
                                                 state: ACTION}});
       }
     },
