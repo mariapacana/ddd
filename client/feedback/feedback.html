@@ -1,0 +1,9 @@
+<template name="feedback">
+  <div class="template">
+    {{#if submittedRating}}
+      {{> currentRating}}
+    {{else}}
+      {{> rating}}
+    {{/if}}
+  </div>
+</template>
