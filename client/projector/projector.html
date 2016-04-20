@@ -1,26 +1,41 @@
 <template name="projector">
   <div class="projector">
-    {{#with currentRound}}
+  {{#with currentRound}}
+    {{#if gameNotStarted}}
+      {{> projector_welcome}}
+    {{else}}
       {{#if gameOver}}
         {{> ending}}
-        {{else}}
-          {{#if gettingVotes}}
-            {{> options}}
-          {{else}}
-            {{#if performingAction}}
-              {{> winner}}
-            {{else}}
-              {{#if gettingFeedback}}
-                <div class="ratings-current">
-                  <h1>Ramona's Total Score: {{totalRating}}</h1>
-                  {{> currentRating}}
-                </div>
-              {{else}}
-                <div>Welcome to the Dreamily Customer Support Training Program!</div>
-              {{/if}}
-            {{/if}}
-        {{/if}}
+      {{else}}
+        {{> projector_game}}
       {{/if}}
-    {{/with}}
+    {{/if}}
+  {{/with}}
+  </div>
+</template>
+
+<template name="projector_game">
+  {{#if gettingVotes}}
+      {{> options}}
+  {{else}}
+    {{#if performingAction}}
+        {{> winner}}
+    {{else}}
+      {{#if gettingFeedback}}
+        {{> projector_game_score}}
+      {{/if}}
+    {{/if}}
+  {{/if}}
+</template>
+
+<template name="projector_welcome">
+  <div>
+    Welcome to the Dreamily Customer Support Training Program!
+  </div>
+</template>
+
+<template name="projector_game_score">
+  <div class="ratings-current">
+    {{> currentRating}}
   </div>
 </template>

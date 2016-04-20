@@ -3,6 +3,10 @@ Template.registerHelper('currentRound', function() {
   return currentRound;
 });
 
+Template.registerHelper('gameNotStarted', function() {
+  return this.roundCount === 1 && this.state === STARTING;
+});
+
 Template.registerHelper('gettingVotes', function() {
   return this.state === VOTING;
 });
