@@ -1,13 +1,6 @@
 Template.admin.helpers({
-  needToAdvance: function() {
-    return this.state === VOTING
-  },
-  needFeedback: function() {
-    return this.state === ACTION;
-  },
-  needVotes: function() {
-    return this.state === STARTING
-      || (this.state === FEEDBACK && this.roundCount !== MAX_ROUNDS);
+  needToStartGame: function() {
+    return this.roundCount === 1 && this.state === STARTING;
   },
   needToEndGame: function() {
     return this.roundCount === MAX_ROUNDS && this.state === FEEDBACK;
@@ -15,6 +8,9 @@ Template.admin.helpers({
 });
 
 Template.admin.events({
+  'click #startGame': function() {
+    Meteor.call('startGame');
+  },
   'click #getFeedback': function() {
     Meteor.call('getFeedback');
   },
@@ -28,3 +24,15 @@ Template.admin.events({
     Meteor.call('endGame');
   }
 });
+
+Template.admin_game.helpers({
+  needFeedback: function() {
+    return this.state === ACTION;
+  },
+  needVotes: function() {
+    return this.state === FEEDBACK && this.roundCount !== MAX_ROUNDS;
+  },
+  needToAdvance: function() {
+    return this.state === VOTING;
+  }
+})

@@ -1,36 +1,50 @@
 <template name="audience">
   <head>
-    <title>ddd</title>
+    <title>Digital Device Dance</title>
   </head>
 
   <div class="audience">
     {{#with currentRound}}
-      {{#if userHasMessage}}
-        {{> message }}
-      {{/if}}
-      {{#if gameOver}}
-        {{> ending}}
+      {{#if gameNotStarted}}
+        {{> welcome}}
       {{else}}
-        {{#if gettingVotes}}
-          {{> options}}
+        {{#if gameOver}}
+          {{> ending}}
         {{else}}
-          {{#if performingAction}}
-            {{> winner}}
-          {{else}}
-            {{#if gettingFeedback}}
-              <div>
-                {{#if submittedRating}}
-                  {{> currentRating}}
-                {{else}}
-                  {{> rating}}
-                {{/if}}
-              </div>
-            {{else}}
-              {{> welcome}}
-            {{/if}}
-          {{/if}}
+          {{> audience_game}}
         {{/if}}
       {{/if}}
     {{/with}}
+  </div>
+</template>
+
+<template name="audience_game">
+  {{#if gettingVotes}}
+    {{> options}}
+  {{else}}
+    {{#if performingAction}}
+      {{> audience_game_action}}
+    {{else}}
+      {{#if gettingFeedback}}
+        {{> audience_game_feedback}}
+      {{/if}}
+    {{/if}}
+  {{/if}}
+</template>
+
+<template name="audience_game_action">
+  {{#if userHasMessage}}
+    {{> message }}
+  {{/if}}
+  {{> winner}}
+</template>
+
+<template name="audience_game_feedback">
+  <div>
+    {{#if submittedRating}}
+      {{> currentRating}}
+    {{else}}
+      {{> rating}}
+    {{/if}}
   </div>
 </template>

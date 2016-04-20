@@ -7,29 +7,33 @@
       {{> loginButtons}}
       <h1>Current Round Controls</h1>
       {{#with currentRound}}
-        {{#if needVotes}}
-          {{#if gettingVotes}}
-            {{> currentRating}}
-          {{/if}}
-          <button id="getVotes">Get Votes For Next Round</button>
+        {{#if needToStartGame}}
+          <button id="startGame">Start Game</button>
         {{else}}
-          {{#if needFeedback}}
-            {{ > winner }}
-            <button id="getFeedback">Ratings For Current Round</button>
+          {{#if needToEndGame}}
+            <button id="endGame">End Game</button>
           {{else}}
-            {{#if needToAdvance}}
-              {{ > options }}
-              <button id="advanceRound">Next Round</button>
-            {{else}}
-              {{#if needToEndGame}}
-                {{> currentRating}}
-                <button id="endGame">End Game</button>
-              {{/if}}
-            {{/if}}
+            {{> admin_game}}
           {{/if}}
         {{/if}}
       {{/with}}
     </div>
     <div>{{> restart}}</div>
   </body>
+</template>
+
+<template name="admin_game">
+  {{#if needVotes}}
+    <button id="getVotes">Get Votes For Next Round</button>
+  {{else}}
+    {{#if needToAdvance}}
+      {{ > options }}
+      <button id="advanceRound">Next Round</button>
+    {{else}}
+      {{#if needFeedback}}
+       {{ > winner }}
+        <button id="getFeedback">Ratings For Current Round</button>
+      {{/if}}
+    {{/if}}
+  {{/if}}
 </template>

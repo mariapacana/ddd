@@ -19,6 +19,13 @@ if (Meteor.isServer) {
         if (Options.find().count() === 0) {
           _.each(SEED_OPTIONS, function(doc) { Options.insert(doc); });
         }
+
+        // Only one option for the first round.
+        var currentRound = Rounds.findOne({current: true });
+        var firstOption = Options.findOne({round: 1 });
+        Rounds.update(currentRound._id,
+          {$set: {winner: firstOption.text,
+                  winnerIds: [firstOption._id]}});
     },
     'getFeedback': function() {
       var currentRound = Rounds.findOne({current: true });
@@ -79,6 +86,10 @@ if (Meteor.isServer) {
                                                 winnerIds: winnerIds,
                                                 state: ACTION}});
       }
+    },
+    'startGame': function(roundCount) {
+      var currentRound = Rounds.findOne({current: true});
+      Rounds.update(currentRound._id, {$set: {state: FEEDBACK }});
     },
     'endGame': function(roundCount) {
       var currentRound = Rounds.findOne({current: true});
