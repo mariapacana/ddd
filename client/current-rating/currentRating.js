@@ -1,6 +1,9 @@
 Template.currentRating.helpers({
   performerAndRating: function() {
     return performerData(this);
+  },
+  scoreText: function() {
+    return (this.mode === "solo" || this.mode === "coop") ? "score" : "scores";
   }
 });
 
