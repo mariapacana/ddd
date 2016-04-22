@@ -24,7 +24,11 @@
 
 <template name="admin_game">
   {{#if needVotes}}
-    <button id="getVotes">Get Votes For Next Round</button>
+    {{#if needToAdvanceLevel}}
+      <button id="advanceLevel">Next Level</button>
+    {{else}}
+      <button id="getVotes">Get Votes For Next Round</button>
+    {{/if}}
   {{else}}
     {{#if needToAdvance}}
       {{ > options }}

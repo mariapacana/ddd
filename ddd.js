@@ -11,6 +11,7 @@ if (Meteor.isServer) {
       Rounds.remove({});
       Votes.remove({});
       Invites.remove({});
+      Levels.remove({});
     },
     'seedData': function(roundCount) {
         if (Rounds.find().count() === 0) {
@@ -19,7 +20,9 @@ if (Meteor.isServer) {
         if (Options.find().count() === 0) {
           _.each(SEED_OPTIONS, function(doc) { Options.insert(doc); });
         }
-
+        if (Levels.find().count() === 0) {
+          _.each(SEED_LEVELS, function(doc) { Levels.insert(doc); });
+        }
         // Only one option for the first round.
         var currentRound = Rounds.findOne({current: true });
         var firstOption = Options.findOne({round: 1 });
@@ -40,6 +43,11 @@ if (Meteor.isServer) {
         Rounds.update({_id: currentRound._id}, {$set: {current: false}});
         Rounds.update({roundCount: currentRoundCount+1}, {$set: {current: true}});
       }
+    },
+    'advanceLevel': function(roundCount) {
+      var currentLevelCount = Rounds.findOne({current: true}).level;
+      var currentLevel = Levels.findOne({count: currentLevelCount});
+      Levels.update({_id: currentLevel._id}, {$set: {played: true}});
     },
     'advanceRound': function(roundCount) {
       var votes;

@@ -16,13 +16,17 @@
 
 <template name="projector_game">
   {{#if gettingVotes}}
-      {{> options}}
+    {{> options}}
   {{else}}
     {{#if performingAction}}
-        {{> winner}}
+      {{> winner}}
     {{else}}
       {{#if gettingFeedback}}
-        {{> projector_game_score}}
+        {{#if endOfLevel}}
+          {{> total_rating}}
+        {{else}}
+          {{> projector_game_score}}
+        {{/if}}
       {{/if}}
     {{/if}}
   {{/if}}

@@ -24,11 +24,13 @@ Template._rating.events({
     // Get value from form element
     var rating = $(event.target).val();
     var performer = this.performer;
+    var currentRoundLevel = Rounds.findOne({roundCount: this.currentRoundCount}).level;
 
     // Insert a rating
     if (!userHasVotedInCurrentRound(this.currentRoundCount, performer)) {
       Ratings.insert({
         roundCount: this.currentRoundCount,
+        level: currentRoundLevel,
         value: parseInt(rating, 10),
         createdAt: new Date(), // current time,
         userId: Meteor.userId(),

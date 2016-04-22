@@ -19,6 +19,15 @@ Template.registerHelper('gettingFeedback', function() {
   return this.state === FEEDBACK;
 });
 
+Template.registerHelper('currentLevel', function() {
+  return currentLevel = Levels.findOne({count: this.level});
+});
+
+Template.registerHelper('endOfLevel', function() {
+  var currentLevel = Levels.findOne({count: this.level});
+  return (this.roundCount === currentLevel.lastRound && currentLevel.played && this.state === FEEDBACK);
+});
+
 Template.registerHelper('currentUserRole', function() {
   var currentUser = Meteor.users.findOne({_id: Meteor.userId()});
   return (currentUser && currentUser.role) ? currentUser.role : '...';

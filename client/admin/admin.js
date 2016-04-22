@@ -20,6 +20,9 @@ Template.admin.events({
   'click #advanceRound': function() {
     Meteor.call('advanceRound');
   },
+  'click #advanceLevel': function() {
+    Meteor.call('advanceLevel');
+  },
   'click #endGame': function() {
     Meteor.call('endGame');
   }
@@ -34,5 +37,9 @@ Template.admin_game.helpers({
   },
   needToAdvance: function() {
     return this.state === VOTING;
+  },
+  needToAdvanceLevel: function() {
+    var currentLevel = Levels.findOne({count: this.level});
+    return (this.roundCount === currentLevel.lastRound && !currentLevel.played && this.state === FEEDBACK);
   }
 })
