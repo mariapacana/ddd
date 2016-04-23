@@ -64,3 +64,20 @@ Template.registerHelper('submittedRating', function() {
 Template.registerHelper('userShouldBeInvited', function() {
   return userShouldBeInvited(Meteor.userId(), this.roundCount);
 })
+
+Template.registerHelper('userIsAllowedToVote', function() {
+  if (this.mode !== "finale") {
+    return true;
+  } else {
+    var canVote = true;
+    var currentUserRole = Meteor.users.findOne({_id: Meteor.userId()}).role;
+    var lastLevel = Levels.findOne({count: 4});
+    if (lastLevel.mode === "versus-group") {
+      if ((lastLevel.winner === "managers" && currentUserRole !== "manager") ||
+        (lastLevel.winner === "workers" && currentUserRole !== "worker")) {
+        canVote = false;
+      }
+    }
+    return canVote;
+  }
+})

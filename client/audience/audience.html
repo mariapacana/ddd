@@ -20,7 +20,11 @@
 
 <template name="audience_game">
   {{#if gettingVotes}}
-    {{> options}}
+    {{#if userIsAllowedToVote}}
+      {{> options}}
+    {{else}}
+      <p>Sorry, you can't vote in this round.</p>
+    {{/if}}
   {{else}}
     {{#if performingAction}}
       {{> audience_game_action}}

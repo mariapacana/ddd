@@ -47,16 +47,35 @@ if (Meteor.isServer) {
     'advanceLevel': function(roundCount) {
       var currentLevelCount = Rounds.findOne({current: true}).level;
       var currentLevel = Levels.findOne({count: currentLevelCount});
-      Levels.update({_id: currentLevel._id}, {$set: {played: true}});
+      var levelWinner;
+      var nextLevelMode;
       if (currentLevelCount === 3) {
         var ramonaScore = averageRating(currentLevel.lastRound, "ramona", true, currentLevelCount);
         var managerScore = averageRating(currentLevel.lastRound, "manager", true, currentLevelCount);
-        // If the manager wins, the whole group plays.
-        if (ramonaScore < managerScore) {
-          Levels.update({count: currentLevelCount + 1}, {$set: {mode: "coop-group"}});
-          Rounds.update({level: currentLevelCount + 1}, {$set: {mode: "coop-group"}}, {multi: true});
+        if (managerScore >= ramonaScore) {
+          levelWinner = "manager";
+          nextLevelMode = "coop-group";
+        } else {
+          levelWinner = "ramona";
+          nextLevelMode = "versus-group";
         }
+        Levels.update({count: currentLevelCount + 1}, {$set: {mode: nextLevelMode}});
+        Rounds.update({level: currentLevelCount + 1}, {$set: {mode: nextLevelMode}}, {multi: true});
+        Levels.update({count: currentLevelCount}, {$set: {winner: levelWinner}});
       }
+      if (currentLevelCount === 4) {
+        if (currentLevel.mode === "versus-group") {
+          var managersScore = averageRating(currentLevel.lastRound, "managers", true, currentLevelCount);
+          var workersScore = averageRating(currentLevel.lastRound, "workers", true, currentLevelCount);
+          levelWinner = (managersScore >= workersScore) ? "managers" : "workers";
+        } else if (currentLevel.mode === "coop-group") {
+          var companyScore = averageRating(currentLevel.lastRound, "managersworkers", true, currentLevelCount);
+          levelWinner = (companyScore >= 90) ? "managersworkers" : "CEO";
+        }
+        Levels.update({count: currentLevelCount}, {$set: {winner: levelWinner}});
+      }
+
+      Levels.update({_id: currentLevel._id}, {$set: {played: true}});
     },
     'advanceRound': function(roundCount) {
       var votes;
