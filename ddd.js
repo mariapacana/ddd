@@ -48,6 +48,15 @@ if (Meteor.isServer) {
       var currentLevelCount = Rounds.findOne({current: true}).level;
       var currentLevel = Levels.findOne({count: currentLevelCount});
       Levels.update({_id: currentLevel._id}, {$set: {played: true}});
+      if (currentLevelCount === 3) {
+        var ramonaScore = averageRating(currentLevel.lastRound, "ramona", true, currentLevelCount);
+        var managerScore = averageRating(currentLevel.lastRound, "manager", true, currentLevelCount);
+        // If the manager wins, the whole group plays.
+        if (ramonaScore < managerScore) {
+          Levels.update({count: currentLevelCount + 1}, {$set: {mode: "coop-group"}});
+          Rounds.update({level: currentLevelCount + 1}, {$set: {mode: "coop-group"}}, {multi: true});
+        }
+      }
     },
     'advanceRound': function(roundCount) {
       var votes;
