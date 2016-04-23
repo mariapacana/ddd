@@ -1,6 +1,6 @@
 <template name="options">
   <div class="options">
-    <h1>What should {{pronoun}} do next?</h1>
+    {{> option_header}}
     <ul>
       {{#each options}}
         <li>
@@ -10,4 +10,12 @@
       {{/each}}
     </ul>
   </div>
+</template>
+
+<template name="option_header">
+  {{#if isFinale}}
+    <h1>Ramona should be...</h1>
+  {{else}}
+    <h1>What should {{pronoun}} do next?</h1>
+  {{/if}}
 </template>

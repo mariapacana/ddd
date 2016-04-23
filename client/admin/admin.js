@@ -3,7 +3,7 @@ Template.admin.helpers({
     return this.roundCount === 1 && this.state === STARTING;
   },
   needToEndGame: function() {
-    return this.roundCount === MAX_ROUNDS && this.state === FEEDBACK;
+    return this.roundCount === MAX_ROUNDS && this.mode === "finale" && this.state === VOTING;
   }
 });
 

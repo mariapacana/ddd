@@ -1,7 +1,4 @@
 Template.options.helpers({
-  pronoun: function() {
-    return (this.mode === "solo") ? "I" : "we";
-  },
   options: function() {
     return Options.find({round: this.roundCount});
   },
@@ -19,5 +16,14 @@ Template.options.events({
         Votes.insert({'userId': userId,
                       'optionId': this._id,
                       'round': this.round});
+  }
+});
+
+Template.option_header.helpers({
+  isFinale: function() {
+    return this.mode === "finale";
+  },
+  pronoun: function() {
+    return (this.mode === "solo") ? "I" : "we";
   }
 });
