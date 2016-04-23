@@ -1,16 +1,14 @@
 <template name="total_rating">
-  {{#with currentLevel}}
-    <h1>
-      Level {{levelText}} Total {{scoreText}}:
-    </h1>
-    {{#each performerAndRating}}
-      {{ > _total_rating performer=performer rating=rating }}
-    {{/each}}
-  {{/with}}
+  <div>
+    {{#with currentLevel}}
+      <h1>Level {{levelText}} Total {{scoreText}}</h1>
+      {{#each performerAndRating}}
+        {{ > _total_rating performer=performer rating=rating }}
+      {{/each}}
+    {{/with}}
+  </div>
 </template>
 
 <template name="_total_rating">
-  <div>
-    {{performer}}: {{performerRating}}
-  </div>
+  <p>{{performer}}: {{performerRating}}</p>
 </template>
