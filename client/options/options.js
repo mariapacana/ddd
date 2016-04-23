@@ -1,4 +1,7 @@
 Template.options.helpers({
+  pronoun: function() {
+    return (this.mode === "solo") ? "I" : "we";
+  },
   options: function() {
     return Options.find({round: this.roundCount});
   },
