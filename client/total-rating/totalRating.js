@@ -16,5 +16,14 @@ Template._total_rating.helpers({
   },
   performerRating: function() {
     return this.rating;
+  },
+  perfColor: function() {
+    var color;
+    if (typeof this.rating !== "number") {
+      color = "white";
+    } else {
+      color = (this.rating < 90) ? "red" : "green";
+    }
+    return color;
   }
 });
