@@ -2,7 +2,7 @@ Template.audience.onRendered(function() {
   Session.set('showMessage', false);
 });
 
-Template.audience.helpers({
+Template.audience_game_action.helpers({
   'userHasMessage': function() {
     var shouldInvite = userShouldBeInvited(Meteor.userId(), this.roundCount);
     if (shouldInvite) {
