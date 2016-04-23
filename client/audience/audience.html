@@ -30,7 +30,11 @@
       {{> audience_game_action}}
     {{else}}
       {{#if gettingFeedback}}
-        {{> audience_game_feedback}}
+        {{#if endOfLevel}}
+          {{> total_rating}}
+        {{else}}
+          {{> audience_game_feedback}}
+        {{/if}}
       {{/if}}
     {{/if}}
   {{/if}}
