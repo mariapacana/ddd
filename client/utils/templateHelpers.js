@@ -66,12 +66,12 @@ Template.registerHelper('userShouldBeInvited', function() {
 })
 
 Template.registerHelper('userIsAllowedToVote', function() {
-  if (this.mode !== "finale") {
+  if (this.level !== 5) {
     return true;
   } else {
     var canVote = true;
-    var currentUserRole = Meteor.users.findOne({_id: Meteor.userId()}).role;
-    var lastLevel = Levels.findOne({count: 4});
+    var currentUserRole = currentUser(Meteor.userId()).role;
+    var lastLevel = Levels.findOne({count: this.level - 1});
     if (lastLevel.mode === "versus-group") {
       if ((lastLevel.winner === "managers" && currentUserRole !== "manager") ||
         (lastLevel.winner === "workers" && currentUserRole !== "worker")) {
@@ -79,5 +79,17 @@ Template.registerHelper('userIsAllowedToVote', function() {
       }
     }
     return canVote;
+  }
+})
+
+Template.registerHelper('userIsAllowedToRate', function() {
+  if (this.level < 4) {
+    return true;
+  } else {
+    var canRate = true;
+    if (this.level === 4 && !isAdmin(Meteor.userId())) {
+      canRate = false;
+    }
+    return canRate;
   }
 })

@@ -33,7 +33,11 @@
         {{#if endOfLevel}}
           {{> total_rating}}
         {{else}}
-          {{> audience_game_feedback}}
+          {{#if userIsAllowedToRate}}
+            {{> audience_game_feedback}}
+          {{else}}
+            <p>Emily will be rating you in this round!</p>
+          {{/if}}
         {{/if}}
       {{/if}}
     {{/if}}
