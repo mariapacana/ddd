@@ -45,7 +45,8 @@ if (Meteor.isServer) {
       }
     },
     'advanceLevel': function(roundCount) {
-      var currentLevelCount = Rounds.findOne({current: true}).level;
+      var currentRound = Rounds.findOne({current: true});
+      var currentLevelCount = currentRound.level;
       var currentLevel = Levels.findOne({count: currentLevelCount});
       var levelWinner;
       var nextLevelMode;
@@ -71,6 +72,9 @@ if (Meteor.isServer) {
         } else if (currentLevel.mode === "coop-group") {
           var companyScore = averageRating(currentLevel.lastRound, "managersworkers", true, currentLevelCount);
           levelWinner = (companyScore >= 90) ? "managersworkers" : "CEO";
+          if (levelWinner === "CEO") {
+            Rounds.update({roundCount: currentRound.roundCount + 1}, {$set: {state: ENDING}})
+          }
         }
         Levels.update({count: currentLevelCount}, {$set: {winner: levelWinner}});
       }

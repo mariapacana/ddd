@@ -52,9 +52,7 @@ Template.registerHelper('currentRoundCount', function() {
 })
 
 Template.registerHelper('gameOver', function() {
-  return this.roundCount === MAX_ROUNDS &&
-         this.mode === "finale" &&
-         this.state === ENDING;
+  return this.state === ENDING;
 });
 
 Template.registerHelper('submittedRating', function() {
