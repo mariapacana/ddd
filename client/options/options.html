@@ -5,10 +5,13 @@
       {{#each options}}
         <li>
           <a href class="option">{{text}}</a>
-          {{optionVotes}}
+          {{votes}}
         </li>
       {{/each}}
     </ul>
+    {{#if selectedOption}}
+      <p class="selectedOption">You picked {{selectedOption}}.</p>
+    {{/if}}
   </div>
 </template>
 
